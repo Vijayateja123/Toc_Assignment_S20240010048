@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFG to CNF Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CFG to CNF Simulator</h1>
+            <p>Step-by-step conversion of Context-Free Grammars into Chomsky Normal Form.</p>
+        </header>
+
+        <main>
+            <section class="input-panel glassmorphism">
+                <div class="panel-header">
+                    <h2>Define Grammar</h2>
+                    <span class="badge">Input</span>
+                </div>
+                
+                <div class="input-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <select id="example-select" class="btn btn-secondary" style="background-color: rgba(15, 23, 42, 0.6); color: #fff; border: 1px solid var(--border-color); outline: none;">
+                        <option value="">-- Load an Example Model --</option>
+                        <option value="model1">Model 1: With ε-production</option>
+                        <option value="model2">Model 2: With unit productions</option>
+                        <option value="model3">Model 3: Long production</option>
+                        <option value="model4">Model 4: Terminal with variable</option>
+                        <option value="model5">Model 5: Recursive grammar</option>
+                        <option value="model6">Model 6: Multiple ε-productions</option>
+                        <option value="model7">Model 7: Mixed form grammar</option>
+                        <option value="model8">Model 8: Useless symbols</option>
+                        <option value="model9">Model 9: Self recursive variables</option>
+                        <option value="model10">Model 10: Combination of all cases</option>
+                    </select>
+                    <button id="clear-btn" class="btn btn-outline">Clear</button>
+                </div>
+                
+                <label for="cfg-input" class="visually-hidden">CFG Rules</label>
+                <textarea id="cfg-input" rows="8" placeholder="Enter rules like:&#10;S -> AB | BC&#10;A -> BA | a&#10;B -> CC | b&#10;C -> AB | a | e"></textarea>
+                
+                <p class="helper-text">Format: <code>Variable -> production | production</code>. Use <code>e</code> or <code>ε</code> for epsilon.</p>
+                
+                <button id="convert-btn" class="btn btn-primary btn-block">Simulate Conversion</button>
+            </section>
+
+            <section id="simulation-panel" class="simulation-panel hidden">
+                <div class="panel-header">
+                    <h2>Conversion Steps</h2>
+                </div>
+                
+                <div class="stepper">
+                    <div class="step-indicator" id="ind-0" title="Original CFG"><div class="dot"></div><div class="label">Start</div></div>
+                    <div class="step-line"></div>
+                    <div class="step-indicator" id="ind-1" title="Remove Epsilon"><div class="dot"></div><div class="label">Step 1: ε</div></div>
+                    <div class="step-line"></div>
+                    <div class="step-indicator" id="ind-2" title="Remove Unit"><div class="dot"></div><div class="label">Step 2: Unit</div></div>
+                    <div class="step-line"></div>
+                    <div class="step-indicator" id="ind-3" title="Remove Useless"><div class="dot"></div><div class="label">Step 3: Useless</div></div>
+                    <div class="step-line"></div>
+                    <div class="step-indicator" id="ind-4" title="Final CNF"><div class="dot"></div><div class="label">Step 4: CNF</div></div>
+                </div>
+
+                <div id="step-content-container" class="steps-container">
+                    <!-- Dynamic steps will be injected here -->
+                </div>
+
+                <div id="final-result-card" class="result-card glassmorphism hidden">
+                    <div class="status-badge success">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Successfully converted to CNF
+                    </div>
+                </div>
+                
+            </section>
+        </main>
+    </div>
+
+    <!-- Template for step cards -->
+    <template id="step-card-template">
+        <div class="step-card glassmorphism hidden-step">
+            <div class="step-header">
+                <div class="step-title-group">
+                    <span class="step-number"></span>
+                    <h3 class="step-title"></h3>
+                </div>
+                <div class="step-description"></div>
+            </div>
+            
+            <div class="step-body">
+                <div class="grammar-container">
+                    <h4>Current Grammar:</h4>
+                    <div class="grammar-rules"></div>
+                </div>
+                
+                <div class="changes-container">
+                    <h4>Changes in this step:</h4>
+                    <ul class="changes-list"></ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
